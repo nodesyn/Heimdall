@@ -1,0 +1,194 @@
+================================================================================
+                    WINDOWS SERVICE - QUICK START CARD
+================================================================================
+
+YES, YOU CAN BUILD THE EXE ON LINUX AND RUN IT ON WINDOWS!
+
+================================================================================
+                              BUILD ON LINUX
+================================================================================
+
+From this server (YOUR_HUB_IP):
+
+1. Install dependencies (one-time):
+   pip install pyinstaller requests
+
+2. Build EXE:
+   cd /home/n0desyn/Nexus/coding/Heimdall/agents
+   chmod +x build_windows_exe_cross_platform.sh
+   ./build_windows_exe_cross_platform.sh
+
+3. Wait 1-2 minutes
+   ✓ You'll see: "Build completed successfully!"
+   ✓ Output: dist/HeimdallAgent.exe (~50MB)
+
+4. Copy to Windows machine:
+   scp dist/HeimdallAgent.exe user@windows-machine:C:/Heimdall/
+
+================================================================================
+                            DEPLOY ON WINDOWS
+================================================================================
+
+On any Windows machine (as Administrator):
+
+Option A - Simple Installation:
+  1. Create directory: mkdir C:\Heimdall
+  2. Copy HeimdallAgent.exe to: C:\Heimdall\
+  3. Install service:
+     C:\Heimdall\HeimdallAgent.exe install
+  4. Start service:
+     C:\Heimdall\HeimdallAgent.exe start
+
+Option B - Automated Installation (Recommended):
+  1. Copy Install-HeimdallAgent.ps1 to Windows
+  2. Run (as Administrator):
+     Install-HeimdallAgent.ps1 -ApiUrl "http://your-siem:8000" -ApiKey "your-key"
+
+================================================================================
+                           SERVICE MANAGEMENT
+================================================================================
+
+Once installed, manage with these commands:
+
+Start:     C:\Heimdall\HeimdallAgent.exe start
+Stop:      C:\Heimdall\HeimdallAgent.exe stop
+Restart:   C:\Heimdall\HeimdallAgent.exe restart
+Remove:    C:\Heimdall\HeimdallAgent.exe remove
+Status:    services.msc → search for "Heimdall Security Agent"
+
+================================================================================
+                              CONFIGURATION
+================================================================================
+
+Set environment variables before installing (or update after):
+
+setx SIEM_API_URL "http://your-siem-server:8000"
+setx SIEM_API_KEY "your-secure-api-key"
+setx SIEM_AGENT_INTERVAL "60"
+setx HEIMDALL_LOG_DIR "C:\Heimdall\logs"
+
+(Must restart service after changing environment variables)
+
+================================================================================
+                                LOGGING
+================================================================================
+
+Logs are written to: C:\Heimdall\logs\heimdall-agent.log
+
+View logs:
+  type C:\Heimdall\logs\heimdall-agent.log
+
+Or in PowerShell:
+  Get-Content C:\Heimdall\logs\heimdall-agent.log -Tail 20 -Wait
+
+================================================================================
+                             TROUBLESHOOTING
+================================================================================
+
+Service won't start?
+  → Check logs: C:\Heimdall\logs\heimdall-agent.log
+  → Verify API URL is reachable: ping your-siem-server
+  → Check API key matches your configuration
+
+Service won't install?
+  → Run Command Prompt as Administrator
+  → Make sure C:\Heimdall directory exists
+  → Verify HeimdallAgent.exe is in C:\Heimdall\
+
+Connection failed?
+  → Check network connectivity to SIEM server
+  → Verify Windows firewall allows outbound connections
+  → Test: Test-NetConnection -ComputerName your-siem -Port 8000
+
+================================================================================
+                                WHAT YOU GET
+================================================================================
+
+✅ Single standalone EXE file (~50MB)
+✅ No Python runtime needed on Windows
+✅ Runs as Windows Service
+✅ Auto-starts on reboot
+✅ Auto-restarts if crashed
+✅ Proper logging to file and Windows Event Log
+✅ Can manage via Services.msc
+✅ Can manage via command line
+
+================================================================================
+                           DOCUMENTATION LINKS
+================================================================================
+
+Quick Reference:
+  agents/WINDOWS_SERVICE_README.md
+
+Complete Guide:
+  docs/WINDOWS_AGENT_SERVICE.md
+
+Cross-Platform Deployment:
+  docs/CROSS_PLATFORM_WINDOWS_AGENT.md
+
+Development Guide:
+  CLAUDE.md
+
+================================================================================
+                              TYPICAL FLOW
+================================================================================
+
+LINUX BUILD:
+  pip install pyinstaller requests
+  cd agents
+  ./build_windows_exe_cross_platform.sh
+  Wait 1-2 minutes...
+  dist/HeimdallAgent.exe ready!
+
+WINDOWS DEPLOY:
+  Copy HeimdallAgent.exe to C:\Heimdall\
+  Run (Admin): C:\Heimdall\HeimdallAgent.exe install
+  Run (Admin): C:\Heimdall\HeimdallAgent.exe start
+  Check: services.msc → "Heimdall Security Agent" (Running)
+  Monitor: C:\Heimdall\logs\heimdall-agent.log
+
+================================================================================
+                              FILE LOCATIONS
+================================================================================
+
+Build on Linux:
+  Source: /home/n0desyn/Nexus/coding/Heimdall/agents/windows_service_wrapper.py
+  Config: /home/n0desyn/Nexus/coding/Heimdall/agents/build_windows_exe.spec
+  Build Script: /home/n0desyn/Nexus/coding/Heimdall/agents/build_windows_exe_cross_platform.sh
+  Output: /home/n0desyn/Nexus/coding/Heimdall/agents/dist/HeimdallAgent.exe
+
+Deploy on Windows:
+  EXE: C:\Heimdall\HeimdallAgent.exe
+  Logs: C:\Heimdall\logs\heimdall-agent.log
+  Config: Environment variables (SIEM_API_URL, SIEM_API_KEY, etc.)
+
+================================================================================
+                           SUCCESS INDICATORS
+================================================================================
+
+Build succeeded:
+  ✓ dist/HeimdallAgent.exe exists (~50MB)
+  ✓ File can be copied via scp
+
+Install succeeded on Windows:
+  ✓ Service appears in services.msc
+  ✓ Service status shows "Running"
+  ✓ Log file created: C:\Heimdall\logs\heimdall-agent.log
+
+Operation successful:
+  ✓ Logs show events being collected
+  ✓ Dashboard shows new Windows host
+  ✓ Events visible in Heimdall UI
+
+================================================================================
+
+Ready to build? Run this on Linux:
+
+  pip install pyinstaller requests
+  cd /home/n0desyn/Nexus/coding/Heimdall/agents
+  chmod +x build_windows_exe_cross_platform.sh
+  ./build_windows_exe_cross_platform.sh
+
+Questions? See docs/CROSS_PLATFORM_WINDOWS_AGENT.md
+
+================================================================================

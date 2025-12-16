@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: heimdall-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=heimdall
+      - POSTGRES_USER=heimdall
+      - POSTGRES_PASSWORD=heimdall
+    ports:
+      - "5433:5432"
+    volumes:
+      - heimdall-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U heimdall -d heimdall"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - heimdall-network
+
+  heimdall:
+    build: .
+    container_name: heimdall-siem
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8010:8010"  # API server
+      - "8501:8501"  # Dashboard
+    volumes:
+      - ./data:/app/data
+    environment:
+      - SIEM_API_URL=${SIEM_API_URL:-http://YOUR_HUB_IP:8010}
+      - SIEM_API_KEY=${SIEM_API_KEY}
+      - SIEM_DB_HOST=postgres
+      - SIEM_DB_PORT=5432
+      - SIEM_DB_NAME=heimdall
+      - SIEM_DB_USER=heimdall
+      - SIEM_DB_PASSWORD=heimdall
+      - SIEM_SERVER_HOST=0.0.0.0
+      - SIEM_SERVER_PORT=8010
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8010/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - heimdall-network
+
+volumes:
+  heimdall-db:
+
+networks:
+  heimdall-network:
+    driver: bridge

@@ -1,0 +1,65 @@
+<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .lcars-text { font-family: 'Orbitron', Arial, sans-serif; font-weight: bold; }
+    </style>
+    <radialGradient id="gradGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FF8800;stop-opacity:0.95" />
+      <stop offset="50%" style="stop-color:#FF5500;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#AA2200;stop-opacity:0" />
+    </radialGradient>
+    <filter id="strongGlow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Transparent background -->
+  <rect width="800" height="800" fill="transparent"/>
+
+  <!-- BOLD BLACK OUTER RING -->
+  <circle cx="400" cy="400" r="380" fill="none" stroke="#1a1a1a" stroke-width="20" opacity="1"/>
+  <circle cx="400" cy="400" r="360" fill="none" stroke="#000000" stroke-width="16" opacity="1"/>
+
+  <!-- Thick concentric circles in BLACK -->
+  <circle cx="400" cy="400" r="320" fill="none" stroke="#0a0a0a" stroke-width="14" opacity="1"/>
+  <circle cx="400" cy="400" r="280" fill="none" stroke="#1a1a1a" stroke-width="12" opacity="1"/>
+  <circle cx="400" cy="400" r="240" fill="none" stroke="#000000" stroke-width="10" opacity="1"/>
+
+  <!-- Orange accent ring (minimal) -->
+  <circle cx="400" cy="400" r="200" fill="none" stroke="#FF8800" stroke-width="8" opacity="0.9" filter="url(#strongGlow)"/>
+
+  <!-- Central All-Seeing Eye - LARGE and BOLD -->
+  <circle cx="400" cy="400" r="120" fill="url(#gradGlow)" filter="url(#strongGlow)"/>
+  <circle cx="400" cy="400" r="110" fill="#FF8800" opacity="0.95"/>
+  <circle cx="412" cy="388" r="35" fill="#000000"/>
+
+  <!-- Eye shine highlight - BRIGHT -->
+  <circle cx="418" cy="380" r="15" fill="#FFFFFF" opacity="0.95"/>
+
+  <!-- TOP SPIKE (Watch) - VERY BOLD -->
+  <path d="M 400 80 L 360 200 L 400 140 L 440 200 Z" fill="#FF8800" filter="url(#strongGlow)" stroke="#000000" stroke-width="4"/>
+  <line x1="400" y1="80" x2="400" y2="20" stroke="#000000" stroke-width="14" filter="url(#strongGlow)"/>
+
+  <!-- RIGHT SPIKE (Guard) - VERY BOLD -->
+  <path d="M 720 400 L 600 360 L 680 400 L 600 440 Z" fill="#FF8800" filter="url(#strongGlow)" stroke="#000000" stroke-width="4"/>
+  <line x1="720" y1="400" x2="780" y2="400" stroke="#000000" stroke-width="14" filter="url(#strongGlow)"/>
+
+  <!-- BOTTOM SPIKE (Protect) - VERY BOLD -->
+  <path d="M 400 720 L 360 600 L 400 660 L 440 600 Z" fill="#FF8800" filter="url(#strongGlow)" stroke="#000000" stroke-width="4"/>
+  <line x1="400" y1="720" x2="400" y2="780" stroke="#000000" stroke-width="14" filter="url(#strongGlow)"/>
+
+  <!-- LEFT SPIKE (Defend) - VERY BOLD -->
+  <path d="M 80 400 L 200 360 L 140 400 L 200 440 Z" fill="#FF8800" filter="url(#strongGlow)" stroke="#000000" stroke-width="4"/>
+  <line x1="80" y1="400" x2="20" y2="400" stroke="#000000" stroke-width="14" filter="url(#strongGlow)"/>
+
+  <!-- Diagonal accent lines - BOLD BLACK -->
+  <line x1="260" y1="260" x2="340" y2="340" stroke="#000000" stroke-width="10" opacity="0.9" filter="url(#strongGlow)"/>
+  <line x1="540" y1="260" x2="460" y2="340" stroke="#000000" stroke-width="10" opacity="0.9" filter="url(#strongGlow)"/>
+  <line x1="260" y1="540" x2="340" y2="460" stroke="#000000" stroke-width="10" opacity="0.9" filter="url(#strongGlow)"/>
+  <line x1="540" y1="540" x2="460" y2="460" stroke="#000000" stroke-width="10" opacity="0.9" filter="url(#strongGlow)"/>
+</svg>
